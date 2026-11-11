@@ -1,0 +1,104 @@
+{
+  "products": [
+    {
+      "id": "cc-001",
+      "name": "Camiseta Sol Caribe",
+      "description": "Camiseta estampada con un sol al atardecer sobre el mar Caribe. Algodón 100 %, ideal para el calor.",
+      "price": 59900,
+      "category": "estampadas",
+      "sizes": ["S", "M", "L", "XL"],
+      "imageUrl": "https://placehold.co/600x600/png?text=Sol+Caribe",
+      "inStock": true
+    },
+    {
+      "id": "cc-002",
+      "name": "Camiseta Murallas",
+      "description": "Diseño inspirado en las murallas de Cartagena, en línea minimalista. Algodón peinado.",
+      "price": 64900,
+      "category": "estampadas",
+      "sizes": ["S", "M", "L"],
+      "imageUrl": "https://placehold.co/600x600/png?text=Murallas",
+      "inStock": true
+    },
+    {
+      "id": "cc-003",
+      "name": "Camiseta Getsemaní",
+      "description": "Estampado colorido de las calles y grafitis de Getsemaní. Edición de colección.",
+      "price": 69900,
+      "category": "estampadas",
+      "sizes": ["M", "L", "XL"],
+      "imageUrl": "https://placehold.co/600x600/png?text=Getsemani",
+      "inStock": true
+    },
+    {
+      "id": "cc-004",
+      "name": "Básica Blanca",
+      "description": "La camiseta que combina con todo. Cuello redondo y tela liviana y fresca.",
+      "price": 34900,
+      "category": "basicas",
+      "sizes": ["S", "M", "L", "XL"],
+      "imageUrl": "https://placehold.co/600x600/png?text=Basica+Blanca",
+      "inStock": true
+    },
+    {
+      "id": "cc-005",
+      "name": "Básica Negra",
+      "description": "Clásica, sin estampado. Algodón de alta durabilidad que no pierde el color.",
+      "price": 34900,
+      "category": "basicas",
+      "sizes": ["S", "M", "L", "XL"],
+      "imageUrl": "https://placehold.co/600x600/png?text=Basica+Negra",
+      "inStock": true
+    },
+    {
+      "id": "cc-006",
+      "name": "Básica Azul Mar",
+      "description": "Tono azul inspirado en el mar de Bocagrande. Corte regular.",
+      "price": 36900,
+      "category": "basicas",
+      "sizes": ["M", "L"],
+      "imageUrl": "https://placehold.co/600x600/png?text=Azul+Mar",
+      "inStock": false
+    },
+    {
+      "id": "cc-007",
+      "name": "Deportiva Brisa",
+      "description": "Tela dry-fit que seca rápido. Perfecta para correr por el malecón.",
+      "price": 54900,
+      "category": "deportivas",
+      "sizes": ["S", "M", "L", "XL"],
+      "imageUrl": "https://placehold.co/600x600/png?text=Brisa",
+      "inStock": true
+    },
+    {
+      "id": "cc-008",
+      "name": "Deportiva Corralito",
+      "description": "Camiseta deportiva con ventilación en la espalda. Ligera y transpirable.",
+      "price": 57900,
+      "category": "deportivas",
+      "sizes": ["M", "L", "XL"],
+      "imageUrl": "https://placehold.co/600x600/png?text=Corralito",
+      "inStock": true
+    },
+    {
+      "id": "cc-009",
+      "name": "Oversize Bahía",
+      "description": "Corte oversize con estampado de la bahía al frente. Estilo urbano y cómodo.",
+      "price": 74900,
+      "category": "oversize",
+      "sizes": ["M", "L", "XL"],
+      "imageUrl": "https://placehold.co/600x600/png?text=Bahia",
+      "inStock": true
+    },
+    {
+      "id": "cc-010",
+      "name": "Oversize Calor",
+      "description": "La camiseta insignia de la marca, con el logo de CamiCalor en la espalda.",
+      "price": 79900,
+      "category": "oversize",
+      "sizes": ["S", "M", "L", "XL"],
+      "imageUrl": "https://placehold.co/600x600/png?text=CamiCalor",
+      "inStock": true
+    }
+  ]
+}
