@@ -15,8 +15,11 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,17 +44,23 @@ import com.ivanarroyo.camicalor.presentation.util.toCopPrice
 import com.ivanarroyo.camicalor.ui.theme.CamicalorTheme
 
 /** Punto de entrada: conecta el ViewModel con la UI. */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CatalogScreen(
-    modifier: Modifier = Modifier,
+    onProductClick: (productId: String) -> Unit,
     viewModel: CatalogViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    CatalogContent(
-        uiState = uiState,
-        onRetry = viewModel::loadProducts,
-        modifier = modifier,
-    )
+    Scaffold(
+        topBar = { CenterAlignedTopAppBar(title = { Text(stringResource(R.string.app_name)) }) },
+    ) { innerPadding ->
+        CatalogContent(
+            uiState = uiState,
+            onRetry = viewModel::loadProducts,
+            onProductClick = onProductClick,
+            modifier = Modifier.padding(innerPadding),
+        )
+    }
 }
 
 /** UI pura: recibe el estado y lo dibuja. Así se puede previsualizar y testear sin ViewModel. */
@@ -59,6 +68,7 @@ fun CatalogScreen(
 fun CatalogContent(
     uiState: CatalogUiState,
     onRetry: () -> Unit,
+    onProductClick: (productId: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     when (uiState) {
@@ -80,13 +90,17 @@ fun CatalogContent(
                     Text(stringResource(R.string.catalog_empty), textAlign = TextAlign.Center)
                 }
             } else {
-                ProductGrid(products = uiState.products, modifier = modifier)
+                ProductGrid(products = uiState.products, onProductClick = onProductClick, modifier = modifier)
             }
     }
 }
 
 @Composable
-private fun ProductGrid(products: List<Product>, modifier: Modifier = Modifier) {
+private fun ProductGrid(
+    products: List<Product>,
+    onProductClick: (productId: String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = modifier.fillMaxSize(),
@@ -95,14 +109,14 @@ private fun ProductGrid(products: List<Product>, modifier: Modifier = Modifier) 
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         items(products, key = { it.id }) { product ->
-            ProductCard(product)
+            ProductCard(product = product, onClick = { onProductClick(product.id) })
         }
     }
 }
 
 @Composable
-private fun ProductCard(product: Product, modifier: Modifier = Modifier) {
-    Card(modifier = modifier.fillMaxWidth()) {
+private fun ProductCard(product: Product, onClick: () -> Unit, modifier: Modifier = Modifier) {
+    Card(onClick = onClick, modifier = modifier.fillMaxWidth()) {
         Box {
             AsyncImage(
                 model = product.imageUrl,
@@ -170,11 +184,11 @@ private val previewProducts = listOf(
 @Preview(showBackground = true)
 @Composable
 private fun CatalogSuccessPreview() {
-    CamicalorTheme { CatalogContent(CatalogUiState.Success(previewProducts), onRetry = {}) }
+    CamicalorTheme { CatalogContent(CatalogUiState.Success(previewProducts), onRetry = {}, onProductClick = {}) }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun CatalogErrorPreview() {
-    CamicalorTheme { CatalogContent(CatalogUiState.Error(isNetworkError = true), onRetry = {}) }
+    CamicalorTheme { CatalogContent(CatalogUiState.Error(isNetworkError = true), onRetry = {}, onProductClick = {}) }
 }

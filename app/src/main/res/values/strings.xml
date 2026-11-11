@@ -1,10 +1,20 @@
 <resources>
     <string name="app_name">CamiCalor</string>
 
+    <!-- Comunes -->
+    <string name="retry">Reintentar</string>
+    <string name="back">Volver</string>
+    <string name="out_of_stock">Agotado</string>
+
     <!-- Catálogo -->
     <string name="catalog_error_network">Sin conexión a internet. Revisa tu red e intenta de nuevo.</string>
     <string name="catalog_error_unknown">No pudimos cargar el catálogo. Intenta de nuevo.</string>
     <string name="catalog_empty">Todavía no hay camisetas en el catálogo.</string>
-    <string name="retry">Reintentar</string>
-    <string name="out_of_stock">Agotado</string>
+
+    <!-- Detalle -->
+    <string name="detail_size">Talla</string>
+    <string name="detail_add_to_cart">Agregar al carrito</string>
+    <string name="detail_select_size_hint">Elige una talla para continuar</string>
+    <string name="detail_out_of_stock_message">Esta camiseta está agotada por ahora.</string>
+    <string name="detail_error_not_found">Esta camiseta ya no está disponible.</string>
 </resources>
