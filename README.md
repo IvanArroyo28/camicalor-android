@@ -10,7 +10,7 @@ A T-shirt store Android app inspired by Cartagena, Colombia — built with **Kot
 
 ## About
 
-<!-- ✍️ Ivan: write 2–3 sentences here in your own English: what CamiCalor is and why you built it. -->
+CamiCalor is an online T-shirt store inspired by the culture of Cartagena, Colombia, especially its beaches. I built this app to practice my skills, and with this project I learned the complete process of publishing an app on GitHub.
 
 ## Demo
 
