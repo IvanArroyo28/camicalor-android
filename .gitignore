@@ -2,6 +2,9 @@
 .gradle/
 build/
 
+# Kotlin (datos de sesión del compilador)
+.kotlin/
+
 # Configuración local (ruta del SDK, API keys)
 local.properties
 
