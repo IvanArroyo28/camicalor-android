@@ -10,6 +10,11 @@
     <string name="catalog_error_network">Sin conexión a internet. Revisa tu red e intenta de nuevo.</string>
     <string name="catalog_error_unknown">No pudimos cargar el catálogo. Intenta de nuevo.</string>
     <string name="catalog_empty">Todavía no hay camisetas en el catálogo.</string>
+    <string name="catalog_search_hint">Buscar camisetas</string>
+    <string name="catalog_clear_search">Borrar búsqueda</string>
+    <string name="catalog_all_categories">Todas</string>
+    <string name="catalog_no_results">No encontramos camisetas que coincidan con tu búsqueda.</string>
+    <string name="catalog_clear_filters">Limpiar filtros</string>
 
     <!-- Detalle -->
     <string name="detail_size">Talla</string>

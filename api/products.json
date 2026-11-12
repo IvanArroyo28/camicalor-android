@@ -6,8 +6,13 @@
       "description": "Camiseta estampada con un sol al atardecer sobre el mar Caribe. Algodón 100 %, ideal para el calor.",
       "price": 59900,
       "category": "estampadas",
-      "sizes": ["S", "M", "L", "XL"],
-      "imageUrl": "https://placehold.co/600x600/png?text=Sol+Caribe",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "imageUrl": "https://raw.githubusercontent.com/IvanArroyo28/camicalor-android/main/api/images/cc-001.jpg",
       "inStock": true
     },
     {
@@ -16,8 +21,12 @@
       "description": "Diseño inspirado en las murallas de Cartagena, en línea minimalista. Algodón peinado.",
       "price": 64900,
       "category": "estampadas",
-      "sizes": ["S", "M", "L"],
-      "imageUrl": "https://placehold.co/600x600/png?text=Murallas",
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "imageUrl": "https://raw.githubusercontent.com/IvanArroyo28/camicalor-android/main/api/images/cc-002.jpg",
       "inStock": true
     },
     {
@@ -26,8 +35,12 @@
       "description": "Estampado colorido de las calles y grafitis de Getsemaní. Edición de colección.",
       "price": 69900,
       "category": "estampadas",
-      "sizes": ["M", "L", "XL"],
-      "imageUrl": "https://placehold.co/600x600/png?text=Getsemani",
+      "sizes": [
+        "M",
+        "L",
+        "XL"
+      ],
+      "imageUrl": "https://raw.githubusercontent.com/IvanArroyo28/camicalor-android/main/api/images/cc-003.jpg",
       "inStock": true
     },
     {
@@ -36,8 +49,13 @@
       "description": "La camiseta que combina con todo. Cuello redondo y tela liviana y fresca.",
       "price": 34900,
       "category": "basicas",
-      "sizes": ["S", "M", "L", "XL"],
-      "imageUrl": "https://placehold.co/600x600/png?text=Basica+Blanca",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "imageUrl": "https://raw.githubusercontent.com/IvanArroyo28/camicalor-android/main/api/images/cc-004.jpg",
       "inStock": true
     },
     {
@@ -46,8 +64,13 @@
       "description": "Clásica, sin estampado. Algodón de alta durabilidad que no pierde el color.",
       "price": 34900,
       "category": "basicas",
-      "sizes": ["S", "M", "L", "XL"],
-      "imageUrl": "https://placehold.co/600x600/png?text=Basica+Negra",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "imageUrl": "https://raw.githubusercontent.com/IvanArroyo28/camicalor-android/main/api/images/cc-005.jpg",
       "inStock": true
     },
     {
@@ -56,8 +79,11 @@
       "description": "Tono azul inspirado en el mar de Bocagrande. Corte regular.",
       "price": 36900,
       "category": "basicas",
-      "sizes": ["M", "L"],
-      "imageUrl": "https://placehold.co/600x600/png?text=Azul+Mar",
+      "sizes": [
+        "M",
+        "L"
+      ],
+      "imageUrl": "https://raw.githubusercontent.com/IvanArroyo28/camicalor-android/main/api/images/cc-006.jpg",
       "inStock": false
     },
     {
@@ -66,8 +92,13 @@
       "description": "Tela dry-fit que seca rápido. Perfecta para correr por el malecón.",
       "price": 54900,
       "category": "deportivas",
-      "sizes": ["S", "M", "L", "XL"],
-      "imageUrl": "https://placehold.co/600x600/png?text=Brisa",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "imageUrl": "https://raw.githubusercontent.com/IvanArroyo28/camicalor-android/main/api/images/cc-007.jpg",
       "inStock": true
     },
     {
@@ -76,8 +107,12 @@
       "description": "Camiseta deportiva con ventilación en la espalda. Ligera y transpirable.",
       "price": 57900,
       "category": "deportivas",
-      "sizes": ["M", "L", "XL"],
-      "imageUrl": "https://placehold.co/600x600/png?text=Corralito",
+      "sizes": [
+        "M",
+        "L",
+        "XL"
+      ],
+      "imageUrl": "https://raw.githubusercontent.com/IvanArroyo28/camicalor-android/main/api/images/cc-008.jpg",
       "inStock": true
     },
     {
@@ -86,8 +121,12 @@
       "description": "Corte oversize con estampado de la bahía al frente. Estilo urbano y cómodo.",
       "price": 74900,
       "category": "oversize",
-      "sizes": ["M", "L", "XL"],
-      "imageUrl": "https://placehold.co/600x600/png?text=Bahia",
+      "sizes": [
+        "M",
+        "L",
+        "XL"
+      ],
+      "imageUrl": "https://raw.githubusercontent.com/IvanArroyo28/camicalor-android/main/api/images/cc-009.jpg",
       "inStock": true
     },
     {
@@ -96,8 +135,13 @@
       "description": "La camiseta insignia de la marca, con el logo de CamiCalor en la espalda.",
       "price": 79900,
       "category": "oversize",
-      "sizes": ["S", "M", "L", "XL"],
-      "imageUrl": "https://placehold.co/600x600/png?text=CamiCalor",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "imageUrl": "https://raw.githubusercontent.com/IvanArroyo28/camicalor-android/main/api/images/cc-010.jpg",
       "inStock": true
     }
   ]

@@ -10,15 +10,24 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -28,7 +37,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -56,6 +68,10 @@ fun CatalogScreen(
     ) { innerPadding ->
         CatalogContent(
             uiState = uiState,
+            query = viewModel.query,
+            onQueryChange = viewModel::onQueryChange,
+            onCategorySelected = viewModel::onCategorySelected,
+            onClearFilters = viewModel::clearFilters,
             onRetry = viewModel::loadProducts,
             onProductClick = onProductClick,
             modifier = Modifier.padding(innerPadding),
@@ -67,6 +83,10 @@ fun CatalogScreen(
 @Composable
 fun CatalogContent(
     uiState: CatalogUiState,
+    query: String,
+    onQueryChange: (String) -> Unit,
+    onCategorySelected: (Category?) -> Unit,
+    onClearFilters: () -> Unit,
     onRetry: () -> Unit,
     onProductClick: (productId: String) -> Unit,
     modifier: Modifier = Modifier,
@@ -76,22 +96,99 @@ fun CatalogContent(
             CircularProgressIndicator()
         }
 
-        is CatalogUiState.Error -> ErrorState(
+        is CatalogUiState.Error -> MessageState(
             message = stringResource(
                 if (uiState.isNetworkError) R.string.catalog_error_network else R.string.catalog_error_unknown
             ),
-            onRetry = onRetry,
+            actionLabel = stringResource(R.string.retry),
+            onAction = onRetry,
             modifier = modifier,
         )
 
         is CatalogUiState.Success ->
-            if (uiState.products.isEmpty()) {
-                Box(modifier.fillMaxSize().padding(24.dp), contentAlignment = Alignment.Center) {
-                    Text(stringResource(R.string.catalog_empty), textAlign = TextAlign.Center)
-                }
+            if (uiState.isCatalogEmpty) {
+                MessageState(message = stringResource(R.string.catalog_empty), modifier = modifier)
             } else {
-                ProductGrid(products = uiState.products, onProductClick = onProductClick, modifier = modifier)
+                Column(modifier.fillMaxSize()) {
+                    SearchField(query = query, onQueryChange = onQueryChange)
+                    CategoryChips(
+                        categories = uiState.categories,
+                        selectedCategory = uiState.selectedCategory,
+                        onCategorySelected = onCategorySelected,
+                    )
+                    if (uiState.products.isEmpty()) {
+                        MessageState(
+                            message = stringResource(R.string.catalog_no_results),
+                            actionLabel = stringResource(R.string.catalog_clear_filters),
+                            onAction = onClearFilters,
+                            outlinedAction = true,
+                            modifier = Modifier.weight(1f),
+                        )
+                    } else {
+                        ProductGrid(
+                            products = uiState.products,
+                            onProductClick = onProductClick,
+                            modifier = Modifier.weight(1f),
+                        )
+                    }
+                }
             }
+    }
+}
+
+@Composable
+private fun SearchField(query: String, onQueryChange: (String) -> Unit) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+    OutlinedTextField(
+        value = query,
+        onValueChange = onQueryChange,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp, vertical = 8.dp),
+        placeholder = { Text(stringResource(R.string.catalog_search_hint)) },
+        leadingIcon = { Icon(painterResource(R.drawable.ic_search), contentDescription = null) },
+        trailingIcon = {
+            if (query.isNotEmpty()) {
+                IconButton(onClick = { onQueryChange("") }) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_close),
+                        contentDescription = stringResource(R.string.catalog_clear_search),
+                    )
+                }
+            }
+        },
+        singleLine = true,
+        shape = MaterialTheme.shapes.extraLarge,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+        // El filtro ya se aplica mientras escribes: el botón "buscar" del teclado solo lo cierra.
+        keyboardActions = KeyboardActions(onSearch = { keyboardController?.hide() }),
+    )
+}
+
+@Composable
+private fun CategoryChips(
+    categories: List<Category>,
+    selectedCategory: Category?,
+    onCategorySelected: (Category?) -> Unit,
+) {
+    LazyRow(
+        contentPadding = PaddingValues(horizontal = 12.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        item(key = "all") {
+            FilterChip(
+                selected = selectedCategory == null,
+                onClick = { onCategorySelected(null) },
+                label = { Text(stringResource(R.string.catalog_all_categories)) },
+            )
+        }
+        items(categories, key = { it.name }) { category ->
+            FilterChip(
+                selected = category == selectedCategory,
+                onClick = { onCategorySelected(category) },
+                label = { Text(category.displayName) },
+            )
+        }
     }
 }
 
@@ -161,16 +258,29 @@ private fun ProductCard(product: Product, onClick: () -> Unit, modifier: Modifie
     }
 }
 
+/** Mensaje centrado con un botón opcional. Sirve para error, catálogo vacío y "sin resultados". */
 @Composable
-private fun ErrorState(message: String, onRetry: () -> Unit, modifier: Modifier = Modifier) {
+private fun MessageState(
+    message: String,
+    modifier: Modifier = Modifier,
+    actionLabel: String? = null,
+    onAction: (() -> Unit)? = null,
+    outlinedAction: Boolean = false,
+) {
     Column(
         modifier = modifier.fillMaxSize().padding(24.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(message, textAlign = TextAlign.Center)
-        Spacer(Modifier.height(16.dp))
-        Button(onClick = onRetry) { Text(stringResource(R.string.retry)) }
+        if (actionLabel != null && onAction != null) {
+            Spacer(Modifier.height(16.dp))
+            if (outlinedAction) {
+                OutlinedButton(onClick = onAction) { Text(actionLabel) }
+            } else {
+                Button(onClick = onAction) { Text(actionLabel) }
+            }
+        }
     }
 }
 
@@ -181,14 +291,40 @@ private val previewProducts = listOf(
     Product("cc-006", "Básica Azul Mar", "", 36900, Category.BASIC, listOf(Size.L), "", false),
 )
 
+private val previewCategories = listOf(Category.PRINTED, Category.BASIC, Category.SPORT, Category.OVERSIZE)
+
 @Preview(showBackground = true)
 @Composable
 private fun CatalogSuccessPreview() {
-    CamicalorTheme { CatalogContent(CatalogUiState.Success(previewProducts), onRetry = {}, onProductClick = {}) }
+    CamicalorTheme {
+        CatalogContent(
+            uiState = CatalogUiState.Success(previewProducts, previewCategories, null, isCatalogEmpty = false),
+            query = "",
+            onQueryChange = {}, onCategorySelected = {}, onClearFilters = {}, onRetry = {}, onProductClick = {},
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun CatalogNoResultsPreview() {
+    CamicalorTheme {
+        CatalogContent(
+            uiState = CatalogUiState.Success(emptyList(), previewCategories, Category.SPORT, isCatalogEmpty = false),
+            query = "murallas",
+            onQueryChange = {}, onCategorySelected = {}, onClearFilters = {}, onRetry = {}, onProductClick = {},
+        )
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun CatalogErrorPreview() {
-    CamicalorTheme { CatalogContent(CatalogUiState.Error(isNetworkError = true), onRetry = {}, onProductClick = {}) }
+    CamicalorTheme {
+        CatalogContent(
+            uiState = CatalogUiState.Error(isNetworkError = true),
+            query = "",
+            onQueryChange = {}, onCategorySelected = {}, onClearFilters = {}, onRetry = {}, onProductClick = {},
+        )
+    }
 }
