@@ -32,13 +32,56 @@
     <string name="cart_empty">Tu carrito está vacío.</string>
     <string name="cart_browse">Ver camisetas</string>
     <string name="cart_size">Talla %1$s</string>
-    <string name="cart_total">Total</string>
+    <string name="cart_subtotal">Subtotal</string>
     <string name="cart_checkout">Continuar al pago</string>
     <string name="cart_increase">Aumentar cantidad</string>
     <string name="cart_decrease">Disminuir cantidad</string>
     <string name="cart_remove">Quitar del carrito</string>
+    <string name="cart_free_shipping_remaining">Te faltan %1$s para el envío gratis</string>
+    <string name="cart_free_shipping_reached">¡Tu pedido tiene envío gratis!</string>
     <plurals name="cart_items_count">
         <item quantity="one">%d camiseta</item>
         <item quantity="other">%d camisetas</item>
     </plurals>
+
+    <!-- Checkout -->
+    <string name="checkout_title">Finalizar compra</string>
+    <string name="checkout_summary">Resumen del pedido</string>
+    <string name="checkout_item_line">%1$d × %2$s · %3$s</string>
+    <string name="checkout_shipping">Envío</string>
+    <string name="checkout_free">Gratis</string>
+    <string name="checkout_total">Total</string>
+    <string name="checkout_shipping_data">Datos de envío</string>
+    <string name="checkout_full_name">Nombre completo</string>
+    <string name="checkout_phone">Celular</string>
+    <string name="checkout_address">Dirección</string>
+    <string name="checkout_neighborhood">Barrio</string>
+    <string name="checkout_city">Ciudad</string>
+    <string name="checkout_payment_method">Método de pago</string>
+    <string name="checkout_confirm">Confirmar pedido</string>
+    <string name="checkout_error">No pudimos confirmar el pedido. Revisa los datos e intenta de nuevo.</string>
+    <string name="checkout_simulated_note">Esta es una tienda de demostración: no se realiza ningún cobro.</string>
+
+    <!-- Errores del formulario -->
+    <string name="error_required">Este campo es obligatorio</string>
+    <string name="error_name_too_short">Escribe tu nombre completo</string>
+    <string name="error_address_too_short">Escribe la dirección completa</string>
+    <string name="error_invalid_phone">Ingresa un celular de 10 dígitos que empiece por 3</string>
+
+    <!-- Métodos de pago -->
+    <string name="payment_cash_on_delivery">Contraentrega</string>
+    <string name="payment_cash_on_delivery_description">Pagas en efectivo cuando recibes tu pedido</string>
+    <string name="payment_bank_transfer">Transferencia</string>
+    <string name="payment_bank_transfer_description">Te enviamos los datos para transferir por WhatsApp</string>
+
+    <!-- Confirmación -->
+    <string name="confirmation_title">¡Pedido confirmado!</string>
+    <string name="confirmation_thanks">Gracias, %1$s. Ya estamos preparando tus camisetas.</string>
+    <string name="confirmation_order_number">Número de pedido</string>
+    <string name="confirmation_items">Camisetas</string>
+    <string name="confirmation_payment">Método de pago</string>
+    <string name="confirmation_total">Total</string>
+    <string name="confirmation_note_cash">Pagarás %1$s cuando recibas tu pedido.</string>
+    <string name="confirmation_note_transfer">Te escribiremos por WhatsApp con los datos para transferir %1$s.</string>
+    <string name="confirmation_continue">Seguir comprando</string>
 </resources>

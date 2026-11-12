@@ -47,6 +47,7 @@ import coil3.compose.AsyncImage
 import com.ivanarroyo.camicalor.R
 import com.ivanarroyo.camicalor.domain.model.Cart
 import com.ivanarroyo.camicalor.domain.model.CartItem
+import com.ivanarroyo.camicalor.domain.model.ShippingPolicy
 import com.ivanarroyo.camicalor.domain.model.Size
 import com.ivanarroyo.camicalor.presentation.util.toCopPrice
 import com.ivanarroyo.camicalor.ui.theme.CamicalorTheme
@@ -55,6 +56,7 @@ import com.ivanarroyo.camicalor.ui.theme.CamicalorTheme
 fun CartScreen(
     onBack: () -> Unit,
     onBrowseProducts: () -> Unit,
+    onCheckout: () -> Unit,
     viewModel: CartViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -65,8 +67,7 @@ fun CartScreen(
         onIncrease = viewModel::onIncrease,
         onDecrease = viewModel::onDecrease,
         onRemove = viewModel::onRemove,
-        // El checkout llega en la Fase 6.
-        onCheckout = {},
+        onCheckout = onCheckout,
     )
 }
 
@@ -206,7 +207,7 @@ private fun CheckoutBar(cart: Cart, onCheckout: () -> Unit) {
         ) {
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 Column(Modifier.weight(1f)) {
-                    Text(stringResource(R.string.cart_total), style = MaterialTheme.typography.bodyMedium)
+                    Text(stringResource(R.string.cart_subtotal), style = MaterialTheme.typography.bodyMedium)
                     Text(
                         text = pluralStringResource(R.plurals.cart_items_count, cart.totalItems, cart.totalItems),
                         style = MaterialTheme.typography.bodySmall,
@@ -219,12 +220,29 @@ private fun CheckoutBar(cart: Cart, onCheckout: () -> Unit) {
                     color = MaterialTheme.colorScheme.primary,
                 )
             }
+            Spacer(Modifier.height(8.dp))
+            FreeShippingHint(subtotal = cart.total)
             Spacer(Modifier.height(12.dp))
             Button(onClick = onCheckout, modifier = Modifier.fillMaxWidth()) {
                 Text(stringResource(R.string.cart_checkout))
             }
         }
     }
+}
+
+/** Motiva a completar el pedido: "Te faltan $ 30.000 para el envío gratis". */
+@Composable
+private fun FreeShippingHint(subtotal: Long) {
+    val remaining = ShippingPolicy.remainingForFreeShipping(subtotal)
+    Text(
+        text = if (remaining > 0) {
+            stringResource(R.string.cart_free_shipping_remaining, remaining.toCopPrice())
+        } else {
+            stringResource(R.string.cart_free_shipping_reached)
+        },
+        style = MaterialTheme.typography.bodySmall,
+        color = if (remaining > 0) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.primary,
+    )
 }
 
 @Composable
