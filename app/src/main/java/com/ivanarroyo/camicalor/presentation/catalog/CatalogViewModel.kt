@@ -10,11 +10,13 @@ import com.ivanarroyo.camicalor.domain.model.Category
 import com.ivanarroyo.camicalor.domain.model.Product
 import com.ivanarroyo.camicalor.domain.usecase.FilterProductsUseCase
 import com.ivanarroyo.camicalor.domain.usecase.GetProductsUseCase
+import com.ivanarroyo.camicalor.domain.usecase.ObserveCartUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -24,6 +26,7 @@ import javax.inject.Inject
 class CatalogViewModel @Inject constructor(
     private val getProducts: GetProductsUseCase,
     private val filterProducts: FilterProductsUseCase,
+    observeCart: ObserveCartUseCase,
 ) : ViewModel() {
 
     /** Estado de la descarga, separado de lo que el usuario filtra. */
@@ -61,6 +64,11 @@ class CatalogViewModel @Inject constructor(
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = CatalogUiState.Loading,
         )
+
+    /** Cuántas camisetas hay en el carrito, para el número sobre el ícono. */
+    val cartItemCount: StateFlow<Int> = observeCart()
+        .map { cart -> cart.totalItems }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), initialValue = 0)
 
     init {
         loadProducts()

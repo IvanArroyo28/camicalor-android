@@ -17,6 +17,8 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -60,11 +62,18 @@ import com.ivanarroyo.camicalor.ui.theme.CamicalorTheme
 @Composable
 fun CatalogScreen(
     onProductClick: (productId: String) -> Unit,
+    onOpenCart: () -> Unit,
     viewModel: CatalogViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val cartItemCount by viewModel.cartItemCount.collectAsStateWithLifecycle()
     Scaffold(
-        topBar = { CenterAlignedTopAppBar(title = { Text(stringResource(R.string.app_name)) }) },
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = { Text(stringResource(R.string.app_name)) },
+                actions = { CartButton(itemCount = cartItemCount, onClick = onOpenCart) },
+            )
+        },
     ) { innerPadding ->
         CatalogContent(
             uiState = uiState,
@@ -133,6 +142,22 @@ fun CatalogContent(
                     }
                 }
             }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun CartButton(itemCount: Int, onClick: () -> Unit) {
+    IconButton(onClick = onClick) {
+        BadgedBox(
+            badge = {
+                if (itemCount > 0) {
+                    Badge { Text(if (itemCount > 99) "99+" else itemCount.toString()) }
+                }
+            },
+        ) {
+            Icon(painterResource(R.drawable.ic_cart), contentDescription = stringResource(R.string.cart_open))
+        }
     }
 }
 

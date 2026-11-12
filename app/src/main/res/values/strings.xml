@@ -22,4 +22,23 @@
     <string name="detail_select_size_hint">Elige una talla para continuar</string>
     <string name="detail_out_of_stock_message">Esta camiseta está agotada por ahora.</string>
     <string name="detail_error_not_found">Esta camiseta ya no está disponible.</string>
+    <string name="detail_added_to_cart">Agregada al carrito (talla %1$s)</string>
+    <string name="detail_add_error">No pudimos agregarla al carrito. Intenta de nuevo.</string>
+    <string name="detail_view_cart">Ver carrito</string>
+
+    <!-- Carrito -->
+    <string name="cart_title">Tu carrito</string>
+    <string name="cart_open">Abrir carrito</string>
+    <string name="cart_empty">Tu carrito está vacío.</string>
+    <string name="cart_browse">Ver camisetas</string>
+    <string name="cart_size">Talla %1$s</string>
+    <string name="cart_total">Total</string>
+    <string name="cart_checkout">Continuar al pago</string>
+    <string name="cart_increase">Aumentar cantidad</string>
+    <string name="cart_decrease">Disminuir cantidad</string>
+    <string name="cart_remove">Quitar del carrito</string>
+    <plurals name="cart_items_count">
+        <item quantity="one">%d camiseta</item>
+        <item quantity="other">%d camisetas</item>
+    </plurals>
 </resources>

@@ -8,3 +8,6 @@ data object CatalogRoute
 
 @Serializable
 data class ProductDetailRoute(val productId: String)
+
+@Serializable
+data object CartRoute

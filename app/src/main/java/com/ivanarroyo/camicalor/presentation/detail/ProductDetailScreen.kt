@@ -21,14 +21,21 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -49,16 +56,38 @@ import com.ivanarroyo.camicalor.ui.theme.CamicalorTheme
 @Composable
 fun ProductDetailScreen(
     onBack: () -> Unit,
+    onOpenCart: () -> Unit,
     viewModel: ProductDetailViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
+
+    // Escucha los eventos de una sola vez del ViewModel y muestra el snackbar.
+    LaunchedEffect(Unit) {
+        viewModel.events.collect { event ->
+            when (event) {
+                is ProductDetailEvent.AddedToCart -> {
+                    val result = snackbarHostState.showSnackbar(
+                        message = context.getString(R.string.detail_added_to_cart, event.size.code),
+                        actionLabel = context.getString(R.string.detail_view_cart),
+                        duration = SnackbarDuration.Short,
+                    )
+                    if (result == SnackbarResult.ActionPerformed) onOpenCart()
+                }
+                ProductDetailEvent.AddToCartFailed ->
+                    snackbarHostState.showSnackbar(context.getString(R.string.detail_add_error))
+            }
+        }
+    }
+
     ProductDetailContent(
         uiState = uiState,
         onBack = onBack,
         onRetry = viewModel::loadProduct,
         onSizeSelected = viewModel::onSizeSelected,
-        // El carrito llega en la Fase 5: por ahora el botón no hace nada.
-        onAddToCart = {},
+        onAddToCart = viewModel::onAddToCart,
+        snackbarHostState = snackbarHostState,
     )
 }
 
@@ -70,8 +99,10 @@ fun ProductDetailContent(
     onRetry: () -> Unit,
     onSizeSelected: (Size) -> Unit,
     onAddToCart: () -> Unit,
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
                 title = {
